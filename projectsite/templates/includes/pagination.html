@@ -10,7 +10,8 @@
             <li class="page-item disabled">
                 <span class="page-link">First</span>
             </li>
-            {% endif %} {% if page_obj.has_previous %}
+            {% endif %}
+            {% if page_obj.has_previous %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Prev</a>
             </li>
@@ -18,18 +19,22 @@
             <li class="page-item disabled">
                 <span class="page-link">Prev</span>
             </li>
-            {% endif %} {% for page_num in paginator.page_range %} {% if page_obj.number == page_num %}
+            {% endif %}
+            {% for page_num in paginator.page_range %}
+            {% if page_obj.number == page_num %}
             <li class="page-item active">
                 <span class="page-link">
                     {{ page_num }}
                     <span class="sr-only">(current)</span>
                 </span>
             </li>
-            {% elif page_num > page_obj.number|add: '-3' and page_num < page_obj.number|add:'3' %}
+            {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
             </li>
-            {% endif %} {% endfor %} {% if page_obj.has_next %}
+            {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
             </li>
@@ -37,7 +42,8 @@
             <li class="page-item disabled">
                 <span class="page-link">Next</span>
             </li>
-            {% endif %} {% if page_obj.number != paginator.num_pages %}
+            {% endif %}
+            {% if page_obj.number != paginator.num_pages %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ paginator.num_pages }}">Last</a>
             </li>
@@ -48,7 +54,6 @@
             {% endif %}
         </ul>
     </nav>
-<div class="fw-normal small mt-4 mt-lg-0">Showing <b>{{ object_list.count }}</b> out of
-<b>{{ paginator.count }}</b> entries</div>
+<div class="fw-normal small mt-4 mt-lg-0">Showing <b>{{ object_list.count }}</b> out of <b>{{ paginator.count }}</b> entries</div>
 </div>
 {% endif %}
