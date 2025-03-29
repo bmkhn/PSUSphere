@@ -181,28 +181,27 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="forms.html">
-								<i class="la la-keyboard-o"></i>
-								<p>Org. Members</p>
+							<a href="{% url 'orgmember-list' %}">
+								<i class="la la-users"></i>
+								<p>Org Members</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="tables.html">
-								<i class="la la-th"></i>
+							<a href="{% url 'student-list' %}">
+								<i class="la la-user"></i>
 								<p>Student</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="notifications.html">
-								<i class="la la-bell"></i>
+							<a href="{% url 'college-list' %}">
+								<i class="la la-university"></i>
 								<p>College</p>
 							</a>
 						</li>
-						<li class="nav-item active">
-							<a href="typography.html">
-								<i class="la la-font"></i>
-								<p>Typography</p>
-								<span class="badge badge-danger">25</span>
+						<li class="nav-item">
+							<a href="{% url 'program-list' %}">
+								<i class="la la-graduation-cap"></i>
+								<p>Program</p>
 							</a>
 						</li>
 					</ul>
