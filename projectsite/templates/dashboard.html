@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Dashboard</h4>
+
+        <div class="row">
+            <!-- Chart 1: Polar Area Chart -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Student Distribution by Program</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="polarAreaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart 2: Doughnut Chart for Student Distribution Across Colleges -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Student Distribution Across Colleges</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="collegeDoughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Chart 3: Horizontal Bar Chart -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Top 5 Organizations by Members</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="horizontalBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart 4: Heatmap -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Monthly Organization Member Registrations</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="heatmapChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Chart 5: Stacked Bar Chart -->
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Students in Colleges Grouped by Program</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="stackedBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Chart 1: Polar Area Chart
+    const polarAreaData = {
+        labels: {{ program_distribution.labels|safe }},
+        datasets: [{
+            data: {{ program_distribution.data|safe }},
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+        }]
+    };
+    new Chart(document.getElementById('polarAreaChart'), {
+        type: 'polarArea',
+        data: polarAreaData
+    });
+
+
+    // Chart 2: Doughnut Chart for Student Distribution Across Colleges
+    const collegeDoughnutData = {
+        labels: {{ college_distribution.labels|safe }},
+        datasets: [{
+            data: {{ college_distribution.data|safe }},
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+        }]
+    };
+
+    new Chart(document.getElementById('collegeDoughnutChart'), {
+        type: 'doughnut',
+        data: collegeDoughnutData,
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Student Distribution Across Colleges'
+                },
+                legend: {
+                    position: 'right' // Place the legend on the right
+                }
+            }
+        }
+    });
+
+
+    // Chart 3: Horizontal Bar Chart
+    const horizontalBarData = {
+        labels: {{ top_organizations.labels|safe }},
+        datasets: [{
+            label: 'Members',
+            data: {{ top_organizations.data|safe }},
+            backgroundColor: '#4BC0C0'
+        }]
+    };
+
+    new Chart(document.getElementById('horizontalBarChart'), {
+        type: 'bar',
+        data: horizontalBarData,
+        options: {
+            indexAxis: 'y',
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Top 5 Organizations by Members'
+                }
+            }
+        }
+    });
+
+
+    // Chart 4: Heatmap
+    const heatmapData = {
+        labels: {{ heatmap_data.labels|safe }},
+        datasets: [{
+            label: 'Registrations',
+            data: {{ heatmap_data.data|safe }},
+            backgroundColor: '#9966FF'
+        }]
+    };
+
+    new Chart(document.getElementById('heatmapChart'), {
+        type: 'bar',
+        data: heatmapData,
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Monthly Organization Member Registrations'
+                }
+            }
+        }
+    });
+
+    
+    // Chart 5: Stacked Bar Chart
+    const stackedBarData = {
+        labels: {{ stacked_bar_labels|safe }},
+        datasets: [
+            {% for program_name, data in stacked_bar_datasets.items %}
+            {
+                label: "{{ program_name }}",
+                data: {{ data|safe }},
+                backgroundColor: '#FF6384'
+            },
+            {% endfor %}
+        ]
+    };
+
+    new Chart(document.getElementById('stackedBarChart'), {
+        type: 'bar',
+        data: stackedBarData,
+        options: {
+            scales: {
+                x: { stacked: true },
+                y: { stacked: true }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Students in Colleges Grouped by Program'
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -21,6 +21,7 @@ from studentorg.views import OrgMemberList, OrgMemberCreateView, OrgMemberUpdate
 from studentorg.views import StudentList, StudentCreateView, StudentUpdateView, StudentDeleteView
 from studentorg.views import CollegeList, CollegeCreateView, CollegeUpdateView, CollegeDeleteView
 from studentorg.views import ProgramList, ProgramCreateView, ProgramUpdateView, ProgramDeleteView
+from studentorg.views import dashboard
 from studentorg import views
 from django.contrib.auth import views as auth_views
 
@@ -61,4 +62,7 @@ urlpatterns = [
     # Login and Logout URLs
     re_path(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     re_path(r'^logout/$', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+
+    # Dashboard URL
+    path('dashboard/', dashboard, name='dashboard'),
 ]
